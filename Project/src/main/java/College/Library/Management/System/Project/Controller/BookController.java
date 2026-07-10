@@ -3,7 +3,7 @@ package College.Library.Management.System.Project.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class AdminController {
+public class BookController {
     @GetMapping("/books")
     public String getBooks(){
         return "All books";

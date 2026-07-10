@@ -12,18 +12,4 @@ public class StudentController {
 
     }
 
-    @GetMapping("/mybooks")
-    public String myBooks(){
-        return "MyBooks";
-    }
-
-    @GetMapping("/search")
-    public String booksAvailable(){
-        return "Searching...";
-    }
-
-    @GetMapping("/myhistory")
-    public String myHistory(){
-        return "MyHistory";
-    }
 }
