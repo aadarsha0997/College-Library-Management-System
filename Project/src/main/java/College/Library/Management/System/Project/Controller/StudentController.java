@@ -1,7 +1,9 @@
 package College.Library.Management.System.Project.Controller;
 
+import College.Library.Management.System.Project.DTO.StudentCreateDTO;
 import College.Library.Management.System.Project.Model.Student;
 import College.Library.Management.System.Project.Service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +27,8 @@ public class StudentController {
     }
     @PostMapping("/user")
     public Student createUser(
-            @RequestBody Student userDetail){
-        System.out.println(userDetail);
+            @Valid
+            @RequestBody StudentCreateDTO userDetail){
         return service.createUser(userDetail);
 
     }
