@@ -16,7 +16,7 @@ public class Student{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
 
-    @Column(unique = true,nullable = false)
+    @Column(unique = true)
     private String studentId;
     @Column(nullable = false)
     private String password;
