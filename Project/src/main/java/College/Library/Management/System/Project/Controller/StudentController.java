@@ -2,47 +2,53 @@ package College.Library.Management.System.Project.Controller;
 
 import College.Library.Management.System.Project.DTO.StudentCreateDTO;
 import College.Library.Management.System.Project.DTO.StudentResponseDTO;
-import College.Library.Management.System.Project.Model.Student;
+import College.Library.Management.System.Project.DTO.StudentUpdateDTO;
 import College.Library.Management.System.Project.Service.StudentService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/students")
+@RequiredArgsConstructor
 public class StudentController {
 
-    @Autowired
-    StudentService service;
+    private final StudentService service;
 
-    @GetMapping("/user/{studentId}")
+    @GetMapping("/{studentId}")
     public StudentResponseDTO getUser(@PathVariable String studentId){
-         System.out.println("Hi");
         return service.getUser(studentId);
     }
-    @GetMapping("/users")
+
+
+    @GetMapping
     public List<StudentResponseDTO> getAllUsers(){
         return service.getAllUsers();
-
     }
-    @PostMapping("/user")
-    public Student createUser(
+
+
+    @PostMapping
+    public StudentResponseDTO createUser(
             @Valid
             @RequestBody StudentCreateDTO userDetail){
         return service.createUser(userDetail);
-
     }
-    @PutMapping("/user/{studentId}")
-    public Student updateUser(
+
+
+    @PutMapping("/{studentId}")
+    public StudentResponseDTO updateUser(
             @PathVariable String studentId,
-            @RequestBody Student userDetail){
+
+            @Valid @RequestBody StudentUpdateDTO userDetail){
         return service.updateUser(studentId,userDetail);
     }
-    @DeleteMapping("/user/{studentId}")
+
+
+    @DeleteMapping("/{studentId}")
     public String deleteUser(@PathVariable String studentId){
         return service.deleteUser(studentId);
-
     }
 
 

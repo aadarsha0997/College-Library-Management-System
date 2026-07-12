@@ -2,20 +2,21 @@ package College.Library.Management.System.Project.Service;
 
 import College.Library.Management.System.Project.DTO.StudentCreateDTO;
 import College.Library.Management.System.Project.DTO.StudentResponseDTO;
+import College.Library.Management.System.Project.DTO.StudentUpdateDTO;
 import College.Library.Management.System.Project.Model.Role;
 import College.Library.Management.System.Project.Model.Student;
 import College.Library.Management.System.Project.Repo.StudentRepo;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class StudentService {
 
-    @Autowired
-    StudentRepo repo;
+    private  final StudentRepo repo;
 
     private StudentResponseDTO mapToDTO(Student student){
         StudentResponseDTO dto= new StudentResponseDTO();
@@ -43,7 +44,7 @@ public class StudentService {
     }
 
     @Transactional
-    public Student createUser(StudentCreateDTO userDetail) {
+    public StudentResponseDTO createUser(StudentCreateDTO userDetail) {
         Student student=new Student();
         student.setPassword(userDetail.getPassword());
         student.setName(userDetail.getName());
@@ -53,18 +54,19 @@ public class StudentService {
         student.setRole(Role.STUDENT);
        Student savedUser= repo.save(student);
         savedUser.setStudentId(savedUser.getFaculty()+savedUser.getId());
-        return savedUser;
+        return mapToDTO(savedUser);
 
     }
-    public Student updateUser(String studentId,Student userDetail) {
+
+    @Transactional
+    public StudentResponseDTO updateUser(String studentId, StudentUpdateDTO userDetail) {
         System.out.println("Before updating");
         Student user=repo.findByStudentId(studentId).orElseThrow(()->new RuntimeException("Not found"));
         user.setName(userDetail.getName());
         user.setFaculty(userDetail.getFaculty());
         user.setSemester(userDetail.getSemester());
         user.setPhoneNumber(userDetail.getPhoneNumber());
-
-        return repo.save(user);
+        return mapToDTO(user);
     }
 
 
