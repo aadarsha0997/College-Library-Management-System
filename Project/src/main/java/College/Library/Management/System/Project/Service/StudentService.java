@@ -1,6 +1,7 @@
 package College.Library.Management.System.Project.Service;
 
 import College.Library.Management.System.Project.DTO.StudentCreateDTO;
+import College.Library.Management.System.Project.DTO.StudentResponseDTO;
 import College.Library.Management.System.Project.Model.Role;
 import College.Library.Management.System.Project.Model.Student;
 import College.Library.Management.System.Project.Repo.StudentRepo;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -17,13 +17,29 @@ public class StudentService {
     @Autowired
     StudentRepo repo;
 
-    public Student getUser(String studentId) {
-        return repo.findByStudentId(studentId).orElse(null);
+    private StudentResponseDTO mapToDTO(Student student){
+        StudentResponseDTO dto= new StudentResponseDTO();
+        dto.setStudentId(student.getStudentId());
+        dto.setName(student.getName());
+        dto.setFaculty(student.getFaculty());
+        dto.setSemester(student.getSemester());
+        dto.setPhoneNumber(student.getPhoneNumber());
+        return dto;
     }
 
 
-    public List<Student> getAllUsers() {
-        return repo.findAll();
+    public StudentResponseDTO getUser(String studentId) {
+                Student student=repo.findByStudentId(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
+        return mapToDTO(student);
+    }
+
+
+    public List<StudentResponseDTO> getAllUsers() {
+
+        return repo.findAll()
+                .stream()
+                .map(this::mapToDTO)
+                .toList();
     }
 
     @Transactional

@@ -1,6 +1,7 @@
 package College.Library.Management.System.Project.Controller;
 
 import College.Library.Management.System.Project.DTO.StudentCreateDTO;
+import College.Library.Management.System.Project.DTO.StudentResponseDTO;
 import College.Library.Management.System.Project.Model.Student;
 import College.Library.Management.System.Project.Service.StudentService;
 import jakarta.validation.Valid;
@@ -16,12 +17,12 @@ public class StudentController {
     StudentService service;
 
     @GetMapping("/user/{studentId}")
-    public Student getUser(@PathVariable String studentId){
+    public StudentResponseDTO getUser(@PathVariable String studentId){
          System.out.println("Hi");
         return service.getUser(studentId);
     }
     @GetMapping("/users")
-    public List<Student> getAllUsers(){
+    public List<StudentResponseDTO> getAllUsers(){
         return service.getAllUsers();
 
     }
