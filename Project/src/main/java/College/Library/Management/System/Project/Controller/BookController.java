@@ -1,5 +1,7 @@
 package College.Library.Management.System.Project.Controller;
 
+import College.Library.Management.System.Project.DTO.BookCreateDTO;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/book")
@@ -17,8 +19,8 @@ public class BookController {
     }
 
     @PostMapping
-    public String addBook(){
-        return "add books";
+    public BookCreateDTO addBook(@Valid @RequestBody BookCreateDTO bookDetail){
+        return bookDetail;
     }
     @PutMapping("/{bookId}")
     public String updateBooks(@PathVariable String bookId){
