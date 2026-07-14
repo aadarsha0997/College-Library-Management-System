@@ -15,12 +15,14 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true,nullable = false)
+    @Column(unique = true)
     private String bookId;
 
     private String name;
 
-    private boolean isAvailable;
+    private int totalCopies;
+
+    private int availableCopies;
 
 
 }

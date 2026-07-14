@@ -2,30 +2,31 @@ package College.Library.Management.System.Project.Controller;
 
 import org.springframework.web.bind.annotation.*;
 
+@RequestMapping("/book")
 @RestController
 public class BookController {
-    @GetMapping("/books")
+    @GetMapping
     public String getBooks(){
         return "All books";
     }
 
 
-    @GetMapping("/book")
-    public String getBook(){
-        return "All single book";
+    @GetMapping("/{bookId}")
+    public String getBook(@PathVariable String bookId){
+        return bookId;
     }
 
-    @PostMapping("/book")
+    @PostMapping
     public String addBook(){
         return "add books";
     }
-    @PutMapping("/book")
-    public String updateBooks(){
-        return "update books";
+    @PutMapping("/{bookId}")
+    public String updateBooks(@PathVariable String bookId){
+        return bookId;
     }
-    @DeleteMapping("/book")
-    public String deleteBooks(){
-        return "delete books";
+    @DeleteMapping("/{bookId}")
+    public String deleteBooks(@PathVariable String bookId){
+        return bookId;
     }
 
 
