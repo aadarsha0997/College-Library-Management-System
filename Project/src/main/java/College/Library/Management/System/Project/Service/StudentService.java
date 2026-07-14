@@ -73,7 +73,7 @@ public class StudentService {
     public String deleteUser(String studentId) {
             Student user=repo.findByStudentId(studentId).orElseThrow(()->new RuntimeException("not found"));
             repo.delete(user);
-            return "delete";
+            return "User Deleted Successfully";
 
     }
 
