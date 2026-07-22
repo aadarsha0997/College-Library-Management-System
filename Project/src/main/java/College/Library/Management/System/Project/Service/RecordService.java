@@ -33,7 +33,8 @@ public class RecordService {
     }
 
     public String deleteRecord(Long recordId) {
-        return "delete";
+        repo.deleteById(recordId);
+        return "delete Sucessfull ";
     }
 
     public BorrowBook createRecord(CreateRecordDTO record) {
