@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class RecordService {
@@ -23,12 +24,12 @@ public class RecordService {
     @Autowired
     BookRepo bookRepo;
 
-    public String allRecord(){
-        return "allRecord";
+    public List<BorrowBook> allRecord(){
+        return repo.findAll();
     }
 
-    public String getRecord(Long recordId) {
-        return "single";
+    public BorrowBook getRecord(Long recordId) {
+        return repo.findById(recordId).orElseThrow();
     }
 
     public String deleteRecord(Long recordId) {

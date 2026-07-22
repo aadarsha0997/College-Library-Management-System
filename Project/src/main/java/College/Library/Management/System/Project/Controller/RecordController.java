@@ -6,6 +6,8 @@ import College.Library.Management.System.Project.Service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("records")
 public class RecordController {
@@ -14,12 +16,12 @@ public class RecordController {
     RecordService service;
 
     @GetMapping
-    public String getAllRecord(){
+    public List<BorrowBook> getAllRecord(){
         return service.allRecord();
     }
 
     @GetMapping("/{recordId}")
-    public String getRecord(@PathVariable Long recordId){
+    public BorrowBook getRecord(@PathVariable Long recordId){
         return service.getRecord(recordId);
     }
 
