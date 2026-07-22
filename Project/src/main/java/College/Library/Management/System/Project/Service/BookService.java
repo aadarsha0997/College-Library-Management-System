@@ -5,7 +5,6 @@ import College.Library.Management.System.Project.DTO.BookResponseDTO;
 import College.Library.Management.System.Project.DTO.BookUpdateDTO;
 import College.Library.Management.System.Project.Model.Book;
 import College.Library.Management.System.Project.Repo.BookRepo;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
