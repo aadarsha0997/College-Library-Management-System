@@ -32,9 +32,9 @@ public class RecordController {
 
     @PutMapping("/{recordId}")
     public BorrowBook updateRecord(
-            @PathVariable Long recordId,
-            @RequestBody BorrowBook record){
-        return service.updateRecord(recordId,record);
+            @PathVariable Long recordId
+            ){
+        return service.updateRecord(recordId);
     }
 
     @DeleteMapping("/{recordId}")

@@ -46,10 +46,26 @@ public class RecordService {
         data.setStudent(student);
         data.setBook(book);
         data.setBorrowAt(LocalDate.now());
+        if(book.getAvailableCopies()!=0) {
+            book.setAvailableCopies(book.getAvailableCopies() - 1);
+        }else {
+             throw new RuntimeException("Book is not available");
+        }
+
+
         return repo.save(data);
     }
 
-    public  BorrowBook updateRecord(Long recordId, BorrowBook record) {
-        return record;
+    public  BorrowBook updateRecord(Long recordId) {
+
+       BorrowBook record= repo.findById(recordId).orElseThrow();
+        if(record.getReturnAt()!=null) {
+           throw new RuntimeException("Book already Return");
+        }
+        Book book=record.getBook();
+        book.setAvailableCopies(book.getAvailableCopies() + 1);
+        record.setReturnAt(LocalDate.now());
+        bookRepo.save(book);
+        return repo.save(record);
     }
 }
