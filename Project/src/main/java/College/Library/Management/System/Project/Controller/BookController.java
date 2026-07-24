@@ -5,6 +5,7 @@ import College.Library.Management.System.Project.DTO.BookResponseDTO;
 import College.Library.Management.System.Project.DTO.BookUpdateDTO;
 import College.Library.Management.System.Project.Service.BookService;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,11 @@ public class BookController {
     @GetMapping("/{bookId}")
     public BookResponseDTO getBook(@PathVariable String bookId){
         return service.getBook(bookId);
+    }
+
+    @GetMapping("/search")
+    public List<BookResponseDTO> searchBooks(@RequestParam String name) {
+        return service.searchBook(name);
     }
 
     @PostMapping

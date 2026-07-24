@@ -70,4 +70,9 @@ public class BookService {
        book.setAvailableCopies(bookDetail.getAvailableCopies());
         return mapToBookDTO(book);
     }
+
+    public List<BookResponseDTO> searchBook(String name) {
+       return repo.findByNameContainingIgnoreCase(name).stream().map(this::mapToBookDTO).toList();
+
+    }
 }

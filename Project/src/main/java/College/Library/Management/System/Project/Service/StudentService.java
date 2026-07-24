@@ -1,11 +1,15 @@
 package College.Library.Management.System.Project.Service;
 
+import College.Library.Management.System.Project.DTO.BookResponseDTO;
 import College.Library.Management.System.Project.DTO.StudentCreateDTO;
 import College.Library.Management.System.Project.DTO.StudentResponseDTO;
 import College.Library.Management.System.Project.DTO.StudentUpdateDTO;
+import College.Library.Management.System.Project.Model.BorrowBook;
 import College.Library.Management.System.Project.Model.Role;
 import College.Library.Management.System.Project.Model.Student;
+import College.Library.Management.System.Project.Repo.RecordRepo;
 import College.Library.Management.System.Project.Repo.StudentRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,9 @@ import java.util.List;
 public class StudentService {
 
     private  final StudentRepo repo;
+
+    @Autowired
+    RecordRepo bookRepo;
 
     private StudentResponseDTO mapToDTO(Student student){
         StudentResponseDTO dto= new StudentResponseDTO();
@@ -77,4 +84,12 @@ public class StudentService {
 
     }
 
+    public List<BorrowBook> getHistory(String studentId) {
+
+        return bookRepo.findByStudent_StudentId(studentId);
+    }
+
+    public List<BorrowBook> getBooks(String studentId) {
+        return bookRepo.findByStudent_StudentIdAndReturnAtIsNull(studentId);
+    }
 }

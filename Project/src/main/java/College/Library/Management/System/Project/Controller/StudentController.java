@@ -1,8 +1,8 @@
 package College.Library.Management.System.Project.Controller;
-
 import College.Library.Management.System.Project.DTO.StudentCreateDTO;
 import College.Library.Management.System.Project.DTO.StudentResponseDTO;
 import College.Library.Management.System.Project.DTO.StudentUpdateDTO;
+import College.Library.Management.System.Project.Model.BorrowBook;
 import College.Library.Management.System.Project.Service.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +20,16 @@ public class StudentController {
     @GetMapping("/{studentId}")
     public StudentResponseDTO getUser(@PathVariable String studentId){
         return service.getUser(studentId);
+    }
+
+    @GetMapping("/{studentId}/history")
+    public List<BorrowBook> getHistory(@PathVariable String studentId){
+        return service.getHistory(studentId);
+    }
+
+    @GetMapping("/{studentId}/borrow-books")
+    public List<BorrowBook> getBooks(@PathVariable String studentId){
+        return service.getBooks(studentId);
     }
 
 
