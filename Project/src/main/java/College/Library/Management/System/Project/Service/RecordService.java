@@ -1,6 +1,7 @@
 package College.Library.Management.System.Project.Service;
 
 import College.Library.Management.System.Project.DTO.CreateRecordDTO;
+import College.Library.Management.System.Project.DTO.ReturnRecordDTO;
 import College.Library.Management.System.Project.Model.Book;
 import College.Library.Management.System.Project.Model.BorrowBook;
 import College.Library.Management.System.Project.Model.Student;
@@ -17,6 +18,20 @@ import java.util.List;
 @Service
 public class RecordService {
 
+    ReturnRecordDTO recordToReturnRecordDTO(BorrowBook record){
+        ReturnRecordDTO data= new ReturnRecordDTO();
+        data.setRecordId(record.getId());
+        data.setBorrowAt(record.getBorrowAt());
+        data.setReturnAt(record.getReturnAt());
+        data.setStudentId(record.getStudent().getStudentId());
+        data.setStudent(record.getStudent().getName());
+        data.setBookId(record.getBook().getBookId());
+        data.setBook(record.getBook().getName());
+        return data;
+
+    }
+
+
     @Autowired
     RecordRepo repo;
 
@@ -25,12 +40,13 @@ public class RecordService {
     @Autowired
     BookRepo bookRepo;
 
-    public List<BorrowBook> allRecord(){
-        return repo.findAll();
+    public List<ReturnRecordDTO> allRecord(){
+        return repo.findAll().stream().map(this::recordToReturnRecordDTO).toList();
     }
 
-    public BorrowBook getRecord(Long recordId) {
-        return repo.findById(recordId).orElseThrow();
+    public ReturnRecordDTO getRecord(Long recordId) {
+        BorrowBook record= repo.findById(recordId).orElseThrow();
+        return recordToReturnRecordDTO(record);
     }
 
     public String deleteRecord(Long recordId) {
@@ -39,7 +55,7 @@ public class RecordService {
     }
 
     @Transactional
-    public BorrowBook createRecord(CreateRecordDTO record) {
+    public ReturnRecordDTO createRecord(CreateRecordDTO record) {
         Student student = studentRepo.findByStudentId(record.getStudentId()).orElseThrow();
         Book book= bookRepo.findByBookId(record.getBookId()).orElseThrow();
 
@@ -65,7 +81,7 @@ public class RecordService {
         data.setBorrowAt(LocalDate.now());
 
 
-        return repo.save(data);
+        return recordToReturnRecordDTO(repo.save(data));
     }
 
     public  BorrowBook updateRecord(Long recordId) {

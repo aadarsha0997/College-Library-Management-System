@@ -1,9 +1,6 @@
 package College.Library.Management.System.Project.Service;
 
-import College.Library.Management.System.Project.DTO.BookResponseDTO;
-import College.Library.Management.System.Project.DTO.StudentCreateDTO;
-import College.Library.Management.System.Project.DTO.StudentResponseDTO;
-import College.Library.Management.System.Project.DTO.StudentUpdateDTO;
+import College.Library.Management.System.Project.DTO.*;
 import College.Library.Management.System.Project.Model.BorrowBook;
 import College.Library.Management.System.Project.Model.Role;
 import College.Library.Management.System.Project.Model.Student;
@@ -24,6 +21,18 @@ public class StudentService {
 
     @Autowired
     RecordRepo bookRepo;
+    ReturnRecordDTO recordToReturnRecordDTO(BorrowBook record){
+        ReturnRecordDTO data= new ReturnRecordDTO();
+        data.setRecordId(record.getId());
+        data.setBorrowAt(record.getBorrowAt());
+        data.setReturnAt(record.getReturnAt());
+        data.setStudentId(record.getStudent().getStudentId());
+        data.setStudent(record.getStudent().getName());
+        data.setBookId(record.getBook().getBookId());
+        data.setBook(record.getBook().getName());
+        return data;
+
+    }
 
     private StudentResponseDTO mapToDTO(Student student){
         StudentResponseDTO dto= new StudentResponseDTO();
@@ -84,12 +93,12 @@ public class StudentService {
 
     }
 
-    public List<BorrowBook> getHistory(String studentId) {
+    public List<ReturnRecordDTO> getHistory(String studentId) {
 
-        return bookRepo.findByStudent_StudentId(studentId);
+        return bookRepo.findByStudent_StudentId(studentId).stream().map(this::recordToReturnRecordDTO).toList();
     }
 
-    public List<BorrowBook> getBooks(String studentId) {
-        return bookRepo.findByStudent_StudentIdAndReturnAtIsNull(studentId);
+    public List<ReturnRecordDTO> getBooks(String studentId) {
+        return bookRepo.findByStudent_StudentIdAndReturnAtIsNull(studentId).stream().map(this::recordToReturnRecordDTO).toList();
     }
 }

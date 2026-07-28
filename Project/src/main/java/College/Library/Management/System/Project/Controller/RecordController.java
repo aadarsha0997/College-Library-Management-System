@@ -1,6 +1,7 @@
 package College.Library.Management.System.Project.Controller;
 
 import College.Library.Management.System.Project.DTO.CreateRecordDTO;
+import College.Library.Management.System.Project.DTO.ReturnRecordDTO;
 import College.Library.Management.System.Project.Model.BorrowBook;
 import College.Library.Management.System.Project.Service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +17,17 @@ public class RecordController {
     RecordService service;
 
     @GetMapping
-    public List<BorrowBook> getAllRecord(){
+    public List<ReturnRecordDTO> getAllRecord(){
         return service.allRecord();
     }
 
     @GetMapping("/{recordId}")
-    public BorrowBook getRecord(@PathVariable Long recordId){
+    public ReturnRecordDTO getRecord(@PathVariable Long recordId){
         return service.getRecord(recordId);
     }
 
     @PostMapping
-    public BorrowBook createRecord(@RequestBody CreateRecordDTO record){
+    public ReturnRecordDTO createRecord(@RequestBody CreateRecordDTO record){
         return service.createRecord(record);
     }
 

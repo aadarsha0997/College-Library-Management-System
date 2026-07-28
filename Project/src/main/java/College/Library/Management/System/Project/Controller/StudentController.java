@@ -1,4 +1,5 @@
 package College.Library.Management.System.Project.Controller;
+import College.Library.Management.System.Project.DTO.ReturnRecordDTO;
 import College.Library.Management.System.Project.DTO.StudentCreateDTO;
 import College.Library.Management.System.Project.DTO.StudentResponseDTO;
 import College.Library.Management.System.Project.DTO.StudentUpdateDTO;
@@ -23,12 +24,12 @@ public class StudentController {
     }
 
     @GetMapping("/{studentId}/history")
-    public List<BorrowBook> getHistory(@PathVariable String studentId){
+    public List<ReturnRecordDTO> getHistory(@PathVariable String studentId){
         return service.getHistory(studentId);
     }
 
     @GetMapping("/{studentId}/borrow-books")
-    public List<BorrowBook> getBooks(@PathVariable String studentId){
+    public List<ReturnRecordDTO> getBooks(@PathVariable String studentId){
         return service.getBooks(studentId);
     }
 
