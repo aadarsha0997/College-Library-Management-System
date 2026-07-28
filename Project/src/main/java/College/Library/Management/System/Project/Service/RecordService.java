@@ -9,6 +9,7 @@ import College.Library.Management.System.Project.Repo.RecordRepo;
 import College.Library.Management.System.Project.Repo.StudentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -37,20 +38,31 @@ public class RecordService {
         return "delete Sucessfull ";
     }
 
+    @Transactional
     public BorrowBook createRecord(CreateRecordDTO record) {
         Student student = studentRepo.findByStudentId(record.getStudentId()).orElseThrow();
         Book book= bookRepo.findByBookId(record.getBookId()).orElseThrow();
+
+        Long activeBook=repo.countByStudentAndReturnAtIsNull(student);
+
+        if(activeBook>=5){
+            throw new RuntimeException("Student can't borrow more book then 5 at a time");
+        }
+        if(repo.existsByStudentAndBookAndReturnAtIsNull(student,book)){
+            throw new RuntimeException("Same book can't be borrowed twice");
+        }
+        if(book.getAvailableCopies()>0) {
+            book.setAvailableCopies(book.getAvailableCopies() - 1);
+        }else {
+            throw new RuntimeException("Book is not available");
+        }
+
 
         BorrowBook data=new BorrowBook();
 
         data.setStudent(student);
         data.setBook(book);
         data.setBorrowAt(LocalDate.now());
-        if(book.getAvailableCopies()!=0) {
-            book.setAvailableCopies(book.getAvailableCopies() - 1);
-        }else {
-             throw new RuntimeException("Book is not available");
-        }
 
 
         return repo.save(data);
