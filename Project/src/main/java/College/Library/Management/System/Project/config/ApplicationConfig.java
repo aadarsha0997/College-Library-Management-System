@@ -26,7 +26,7 @@ public class ApplicationConfig {
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
                 return repository.findByStudentId(username).orElseThrow(()->new UsernameNotFoundException("User not found"));
             }
-        }
+        };
     }
 
     @Bean
