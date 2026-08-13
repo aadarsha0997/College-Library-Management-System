@@ -4,9 +4,11 @@ import College.Library.Management.System.Project.DTO.StudentCreateDTO;
 import College.Library.Management.System.Project.DTO.StudentResponseDTO;
 import College.Library.Management.System.Project.DTO.StudentUpdateDTO;
 import College.Library.Management.System.Project.Model.BorrowBook;
+import College.Library.Management.System.Project.Model.Student;
 import College.Library.Management.System.Project.Service.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,16 +20,19 @@ public class StudentController {
 
     private final StudentService service;
 
+    @PreAuthorize("hasRole('ADMIN') or #studentId==authentication.name")
     @GetMapping("/{studentId}")
     public StudentResponseDTO getUser(@PathVariable String studentId){
         return service.getUser(studentId);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or #studentId==authentication.name")
     @GetMapping("/{studentId}/history")
     public List<ReturnRecordDTO> getHistory(@PathVariable String studentId){
         return service.getHistory(studentId);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or #studentId==authentication.name")
     @GetMapping("/{studentId}/borrow-books")
     public List<ReturnRecordDTO> getBooks(@PathVariable String studentId){
         return service.getBooks(studentId);
@@ -40,12 +45,12 @@ public class StudentController {
     }
 
 
-    @PostMapping
-    public StudentResponseDTO createUser(
-            @Valid
-            @RequestBody StudentCreateDTO userDetail){
-        return service.createUser(userDetail);
-    }
+//    @PostMapping
+//    public Student createUser(
+//            @Valid
+//            @RequestBody StudentCreateDTO userDetail){
+//        return service.createUser(userDetail);
+//    }
 
 
     @PutMapping("/{studentId}")

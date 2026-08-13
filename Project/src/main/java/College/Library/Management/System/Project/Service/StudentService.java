@@ -7,6 +7,7 @@ import College.Library.Management.System.Project.Model.Student;
 import College.Library.Management.System.Project.Repo.RecordRepo;
 import College.Library.Management.System.Project.Repo.StudentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 public class StudentService {
 
     private  final StudentRepo repo;
+    private  final PasswordEncoder passwordEncoder;
 
     @Autowired
     RecordRepo bookRepo;
@@ -50,6 +52,14 @@ public class StudentService {
         return mapToDTO(student);
     }
 
+    public Student getUserAuthentication(String studentId) {
+//        Student student=
+             return repo.findByStudentId(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
+//        return student;
+    }
+
+
+
 
     public List<StudentResponseDTO> getAllUsers() {
 
@@ -60,9 +70,9 @@ public class StudentService {
     }
 
     @Transactional
-    public StudentResponseDTO createUser(StudentCreateDTO userDetail) {
+    public Student createUser(StudentCreateDTO userDetail) {
         Student student=new Student();
-        student.setPassword(userDetail.getPassword());
+        student.setPassword(passwordEncoder.encode(userDetail.getPassword()));
         student.setName(userDetail.getName());
         student.setFaculty(userDetail.getFaculty());
         student.setSemester(userDetail.getSemester());
@@ -70,7 +80,7 @@ public class StudentService {
         student.setRole(Role.STUDENT);
        Student savedUser= repo.save(student);
         savedUser.setStudentId(savedUser.getFaculty()+savedUser.getId());
-        return mapToDTO(savedUser);
+        return savedUser;
 
     }
 

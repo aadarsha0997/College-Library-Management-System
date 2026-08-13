@@ -5,20 +5,20 @@ import College.Library.Management.System.Project.DTO.BookResponseDTO;
 import College.Library.Management.System.Project.DTO.BookUpdateDTO;
 import College.Library.Management.System.Project.Service.BookService;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/book")
+@RequestMapping("/books")
 @RestController
 public class BookController {
 
     @Autowired
     BookService service;
 
-    @GetMapping
+    @GetMapping()
     public List<BookResponseDTO> getBooks(){
         return service.getBooks();
     }
