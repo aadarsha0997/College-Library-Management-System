@@ -1,6 +1,7 @@
 package College.Library.Management.System.Project.Service;
 
 import College.Library.Management.System.Project.DTO.*;
+import College.Library.Management.System.Project.Exception.ResourceNotFound;
 import College.Library.Management.System.Project.Model.BorrowBook;
 import College.Library.Management.System.Project.Model.Role;
 import College.Library.Management.System.Project.Model.Student;
@@ -48,14 +49,12 @@ public class StudentService {
 
 
     public StudentResponseDTO getUser(String studentId) {
-                Student student=repo.findByStudentId(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
+                Student student=repo.findByStudentId(studentId).orElseThrow(() -> new ResourceNotFound("Student not found"));
         return mapToDTO(student);
     }
 
     public Student getUserAuthentication(String studentId) {
-//        Student student=
-             return repo.findByStudentId(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
-//        return student;
+             return repo.findByStudentId(studentId).orElseThrow(() -> new ResourceNotFound("Student not found"));
     }
 
 
@@ -87,7 +86,7 @@ public class StudentService {
     @Transactional
     public StudentResponseDTO updateUser(String studentId, StudentUpdateDTO userDetail) {
         System.out.println("Before updating");
-        Student user=repo.findByStudentId(studentId).orElseThrow(()->new RuntimeException("Not found"));
+        Student user=repo.findByStudentId(studentId).orElseThrow(()->new ResourceNotFound("Not found"));
         user.setName(userDetail.getName());
         user.setFaculty(userDetail.getFaculty());
         user.setSemester(userDetail.getSemester());
@@ -97,7 +96,7 @@ public class StudentService {
 
 
     public String deleteUser(String studentId) {
-            Student user=repo.findByStudentId(studentId).orElseThrow(()->new RuntimeException("not found"));
+            Student user=repo.findByStudentId(studentId).orElseThrow(()->new ResourceNotFound("not found"));
             repo.delete(user);
             return "User Deleted Successfully";
 

@@ -51,7 +51,7 @@ public class RecordService {
 
     public String deleteRecord(Long recordId) {
         repo.deleteById(recordId);
-        return "delete Sucessfull ";
+        return " User Deleted Successfully ";
     }
 
     @Transactional

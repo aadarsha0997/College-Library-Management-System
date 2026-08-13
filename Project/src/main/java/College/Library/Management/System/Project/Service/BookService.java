@@ -3,6 +3,7 @@ package College.Library.Management.System.Project.Service;
 import College.Library.Management.System.Project.DTO.BookCreateDTO;
 import College.Library.Management.System.Project.DTO.BookResponseDTO;
 import College.Library.Management.System.Project.DTO.BookUpdateDTO;
+import College.Library.Management.System.Project.Exception.ResourceNotFound;
 import College.Library.Management.System.Project.Model.Book;
 import College.Library.Management.System.Project.Repo.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,12 +50,12 @@ public class BookService {
     }
 
     public BookResponseDTO getBook(String bookId) {
-       Book book= repo.findByBookId(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
+       Book book= repo.findByBookId(bookId).orElseThrow(() -> new ResourceNotFound("Book not found"));
         return mapToBookDTO(book);
     }
 
     public String deleteBook(String bookId) {
-       Book book= repo.findByBookId(bookId).orElseThrow(()->new RuntimeException("Book not found"));
+       Book book= repo.findByBookId(bookId).orElseThrow(()->new ResourceNotFound("Book not found"));
         repo.delete(book);
         return "Book Deleted Successfully";
     }
@@ -64,7 +65,7 @@ public class BookService {
         if(bookDetail.getAvailableCopies()>bookDetail.getTotalCopies()){
             throw new RuntimeException("Available copies cannnot exceed total copies");
         }
-       Book book=repo.findByBookId(bookId).orElseThrow(()->new RuntimeException("Book not found"));
+       Book book=repo.findByBookId(bookId).orElseThrow(()->new ResourceNotFound("Book not found"));
        book.setName(bookDetail.getName());
        book.setTotalCopies(bookDetail.getTotalCopies());
        book.setAvailableCopies(bookDetail.getAvailableCopies());

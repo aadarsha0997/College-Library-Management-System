@@ -9,7 +9,6 @@ import College.Library.Management.System.Project.config.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final StudentRepo studentRepo;
     private final StudentService studentService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -26,20 +24,11 @@ public class AuthenticationService {
     public AuthenticationResponse register(StudentCreateDTO request) {
 
         Student savedUser=studentService.createUser(request);
-//        Student student=new Student();
-//        student.setName(request.getName());
-//        student.setPassword(passwordEncoder.encode(request.getPassword()));
-//        student.setFaculty(request.getFaculty());
-//        student.setSemester(request.getSemester());
-//        student.setPhoneNumber(request.getPhoneNumber());
-//        student.setRole(Role.STUDENT);
-//
-//        Student savedUser= studentRepo.save(student);
-//        savedUser.setStudentId(savedUser.getFaculty()+savedUser.getId());
         var jwtToken= jwtService.generateToken(savedUser);
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .studentId(savedUser.getStudentId())
                 .build();
 
     }
@@ -52,14 +41,13 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-
-//        var user= studentRepo.findByStudentId(request.getStudentId()).orElseThrow();
          var user=studentService.getUserAuthentication(request.getStudentId());
 
         var jwtToken = jwtService.generateToken(user);
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .studentId(user.getStudentId())
                 .build();
     }
 }
