@@ -38,21 +38,14 @@ public class StudentController {
         return service.getBooks(studentId);
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<StudentResponseDTO> getAllUsers(){
         return service.getAllUsers();
     }
 
 
-//    @PostMapping
-//    public Student createUser(
-//            @Valid
-//            @RequestBody StudentCreateDTO userDetail){
-//        return service.createUser(userDetail);
-//    }
-
-
+    @PreAuthorize("hasRole('ADMIN') or #studentId==authentication.name")
     @PutMapping("/{studentId}")
     public StudentResponseDTO updateUser(
             @PathVariable String studentId,
@@ -61,6 +54,7 @@ public class StudentController {
         return service.updateUser(studentId,userDetail);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
 
     @DeleteMapping("/{studentId}")
     public String deleteUser(@PathVariable String studentId){

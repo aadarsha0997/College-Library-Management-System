@@ -32,7 +32,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PUT,"/books/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE,"/books/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET,"/books/**").hasAnyRole("ADMIN","STUDENT")
-//                        .requestMatchers("/student/**").hasAnyRole("STUDENT","ADMIN")
+                        .requestMatchers("/records/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session->session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
